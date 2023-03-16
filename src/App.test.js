@@ -1,7 +1,21 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import React from 'react';
+import { render, fireEvent } from '@testing-library/react';
 
-// import your story from App.stories.js
+import { storiesOf } from '@storybook/react';
+import App from './App';
 
+storiesOf('App', module)
+  .add('default', () => <App />);
 
-// Add your tests here
-// See https://storybook.js.org/docs/react/writing-tests/importing-stories-in-tests#example-with-testing-library
+test('button initially displays "click me"', () => {
+  const { getByText } = render(<App />);
+  const button = getByText('click me');
+  expect(button).toBeInTheDocument();
+});
+
+test('clicking the button changes its text to "thanks"', () => {
+  const { getByText } = render(<App />);
+  const button = getByText('click me');
+  fireEvent.click(button);
+  expect(button).toHaveTextContent('thanks');
+});
